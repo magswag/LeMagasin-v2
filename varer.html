@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="description"
+        content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varer</title>
+    <script src="navigasjon.js" type="module"></script>
+    <script src="vare-komponent.js" type="module"></script>
+    <style>
+        body {
+            margin: 0px;
+            background-color: rgb(204, 222, 203);
+        }
+
+        #vareKonteiner {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding: 8px;
+            gap: 8px;
+        }
+
+        header>form {
+            gap: 8px;
+            background-color: aliceblue;
+            padding: 16px;
+            ;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        #varesøk {
+            border-radius: 500px;
+            border: 1px solid green;
+            padding: 8px;
+            font-size: large;
+            height: 48px;
+        }
+
+        #kategorivelger {
+            height: 48px;
+        }
+
+        @media only screen and (min-width:1025px) {
+            #vareKonteiner {
+                grid-template-columns: repeat(10, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <navigasjon-komponent></navigasjon-komponent>
+    <header>
+        <form action="." id="søkform">
+            <label for="varesøk">Søk:</label>
+            <input type="search" id="varesøk" placeholder="Søk etter varer her" name="q">
+            <label for="kategorivelger">Kategori:</label>
+            <select name="kategori" id="kategorivelger">
+                <option value="">Alle</option>
+                <option value="grønt">Grønt</option>
+                <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
+                <option value="frukt">&nbsp;&nbsp;&nbsp;&nbsp;Frukt</option>
+            </select>
+        </form>
+
+    </header>
+    <div id="vareKonteiner"></div>
+    <script>
+        const varer = [
+            {
+                navn: "Ananas",
+                beskrivelse: "stykk",
+                pris: 26.9,
+                bilde: "ananas",
+                kategorier: ["grønt", "frukt"]
+            },
+            {
+                navn: "Eple",
+                beskrivelse: "180g",
+                pris: 5.92,
+                bilde: "eple",
+                kategorier: ["grønt", "frukt"]
+            },
+            {
+                navn: "Mango",
+                beskrivelse: "stykk",
+                pris: 12.5,
+                bilde: "mango",
+                kategorier: ["grønt", "frukt"]
+            },
+            {
+                navn: "Brokkoli",
+                beskrivelse: "stykk",
+                pris: 17.9,
+                bilde: "brokkoli",
+                kategorier: ["grønt", "grønnsaker"]
+            },
+            {
+                navn: "Gulrøtter",
+                beskrivelse: "400g",
+                pris: 13.9,
+                bilde: "gulrøtter",
+                kategorier: ["grønt", "grønnsaker"]
+            },
+            {
+                navn: "Tomat",
+                beskrivelse: "stykk",
+                pris: 2.39,
+                bilde: "tomat",
+                kategorier: ["grønt", "grønnsaker"]
+            },
+            {
+                navn: "Banan",
+                beskrivelse: "180g",
+                pris: 4.3,
+                bilde: "banan",
+                kategorier: ["grønt", "frukt"]
+            },
+            {
+                navn: "Appelsin",
+                beskrivelse: "stykk",
+                pris: 9.42,
+                bilde: "appelsin",
+                kategorier: ["grønt", "frukt"]
+            },
+            {
+                navn: "Maiskorn",
+                beskrivelse: "Extra Crispy 160g Green Giant",
+                pris: 17,
+                bilde: "mais-green-giant",
+                kategorier: ["grønt", "grønnsaker"]
+            },
+            {
+                navn: "Paprika",
+                beskrivelse: "stykk rød",
+                pris: 14.05,
+                bilde: "paprika",
+                kategorier: ["grønt", "grønnsaker"]
+            },
+        ]
+
+        let filtrerteVarer = []
+
+        function filtrerVarer(søk, kategori) {
+            if (kategori != "") {
+                console.log("aksdas")
+                filtrerteVarer = varer.filter(vare => vare.kategorier.includes(kategori))
+            } else {
+                filtrerteVarer = varer
+            }
+            filtrerteVarer = filtrerteVarer.filter(vare => vare.navn.toLowerCase().includes(søk.toLowerCase()))
+        }
+
+        let params = new URLSearchParams(window.location.search)
+        filtrerVarer(params.get("søk") || "", params.get("kategori") || "")
+
+        tegnVarer()
+
+        const søkform = document.getElementById('søkform');
+        const varesøk = document.getElementById('varesøk');
+        varesøk.value = params.get("søk") || "";
+        const kategorivelger = document.getElementById('kategorivelger');
+        kategorivelger.value = params.get("kategori") || "";
+
+        kategorivelger.addEventListener("change", ev => {
+            filtrerVarer(varesøk.value, kategorivelger.value)
+            tegnVarer()
+            if (kategorivelger.value != "") {
+                params.set("kategori", kategorivelger.value)
+            } else {
+                params.delete("kategori")
+            }
+            history.replaceState(null, null, "?" + (params.toString()));
+        })
+
+        søkform.addEventListener("submit", ev => {
+            ev.preventDefault()
+            filtrerVarer(varesøk.value, "")
+            tegnVarer()
+            if (varesøk.value != "") {
+                params.set("søk", varesøk.value)
+            } else {
+                params.delete("søk")
+            }
+            history.replaceState(null, null, "?" + (params.toString()));
+        })
+
+        function tegnVarer() {
+            const vareKonteiner = document.getElementById('vareKonteiner');
+            vareKonteiner.replaceChildren()
+
+            filtrerteVarer.forEach(vare => {
+                const vareKomponent = document.createElement('vare-komponent');
+                vareKomponent.vare = vare
+                vareKonteiner.appendChild(vareKomponent);
+            });
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
