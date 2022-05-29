@@ -6,12 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
-    <link rel="manifest" href="manifest.webmanifest">
+    <!--<link rel="manifest" href="manifest.webmanifest">-->
     <meta name="description"
         content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hjem</title>
-    <script src="navigasjon.js" type="module"></script>
+    <!--
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(
+              registration => {
+                console.log(`Service Worker registered! Scope: ${registration.scope}`);
+              },
+              error => {
+                console.error(`Service Worker registration failed: ${error}`);
+              },
+            );
+          });
+        }
+      </script>
+      -->
+    <script src="komponenter.js" type="module"></script>
     <style>
         body {
             margin: 0px;

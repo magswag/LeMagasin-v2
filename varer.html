@@ -6,13 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
-    <link rel="manifest" href="manifest.webmanifest">
+    <!--<link rel="manifest" href="manifest.webmanifest">-->
+    <link rel="preload" as="image" href="bilder/varer/eple.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/brokkoli.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/ananas.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/mango.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/mais-green-giant.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/gulrøtter.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/banan.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/paprika.webp" type="image/webp">
+    <link rel="preload" as="image" href="bilder/varer/appelsin.webp" type="image/webp">
+
     <meta name="description"
         content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Varer</title>
-    <script src="navigasjon.js" type="module"></script>
-    <script src="vare-komponent.js" type="module"></script>
+    <script src="komponenter.js" type="module"></script>
     <style>
         body {
             margin: 0px;
@@ -26,15 +35,8 @@
             gap: 8px;
         }
 
-        header>form {
-            gap: 8px;
+        header {
             background-color: aliceblue;
-            padding: 16px;
-            ;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
         }
 
         #varesøk {
@@ -45,13 +47,75 @@
             height: 48px;
         }
 
-        #kategorivelger {
+        select {
             height: 48px;
+        }
+
+        vare-komponent {
+            animation: fadeIn 0.42s ease-in-out;
+        }
+
+        .lay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #søkform {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-sizing: border-box;
+            padding: 16px;
+        }
+
+        .søkefelt {
+            background-color: white;
+            height: 100%;
+            width: 100%;
         }
 
         @media only screen and (min-width:1025px) {
             #vareKonteiner {
                 grid-template-columns: repeat(10, 1fr);
+            }
+
+            .søkefelt {
+                width: 25%;
+                height: 100%;
+            }
+
+            .lay {
+                flex-direction: row;
+                align-items: flex-start;
+                height: 100vh;
+                justify-content: start;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            from {
+                transform: scale(1);
+                opacity: 1;
             }
         }
     </style>
@@ -60,20 +124,31 @@
 <body>
     <navigasjon-komponent></navigasjon-komponent>
     <header>
-        <form action="." id="søkform">
-            <label for="varesøk">Søk:</label>
-            <input type="search" id="varesøk" placeholder="Søk etter varer her" name="q">
-            <label for="kategorivelger">Kategori:</label>
-            <select name="kategori" id="kategorivelger">
-                <option value="">Alle</option>
-                <option value="grønt">Grønt</option>
-                <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
-                <option value="frukt">&nbsp;&nbsp;&nbsp;&nbsp;Frukt</option>
-            </select>
-        </form>
-
+        Le Magasin
     </header>
-    <div id="vareKonteiner"></div>
+    <div class="lay">
+        <div class="søkefelt">
+            <form action="." id="søkform">
+                <label for="varesøk">Søk:</label>
+                <input type="search" id="varesøk" placeholder="Søk etter varer her" name="q">
+                <label for="kategorivelger">Kategori:</label>
+                <select name="kategori" id="kategorivelger">
+                    <option value="">Alle</option>
+                    <option value="grønt">Grønt</option>
+                    <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
+                    <option value="frukt">&nbsp;&nbsp;&nbsp;&nbsp;Frukt</option>
+                </select>
+                <label for="sorteringvelger">Sortering:</label>
+                <select name="sortering" id="sorteringvelger">
+                    <option value="alfabetisk">Alfabetisk</option>
+                    <option value="pris">Pris</option>
+                    <option value="farge">Farge</option>
+                </select>
+                <input type="checkbox" name="" id="retning" style="width:48px; height: 48px;">
+        </div>
+        <div id="vareKonteiner"></div>
+    </div>
+
     <script>
         const varer = [
             {
@@ -162,6 +237,9 @@
 
         let params = new URLSearchParams(window.location.search)
         filtrerVarer(params.get("søk") || "", params.get("kategori") || "")
+        const sorteringvelger = document.getElementById('sorteringvelger');
+        const retning = document.getElementById('retning');
+
 
         tegnVarer()
 
@@ -170,6 +248,12 @@
         varesøk.value = params.get("søk") || "";
         const kategorivelger = document.getElementById('kategorivelger');
         kategorivelger.value = params.get("kategori") || "";
+        retning.addEventListener("change", ev => {
+            tegnVarer()
+        })
+        sorteringvelger.addEventListener("change", ev => {
+            tegnVarer()
+        })
 
         kategorivelger.addEventListener("change", ev => {
             filtrerVarer(varesøk.value, kategorivelger.value)
@@ -195,6 +279,15 @@
         })
 
         function tegnVarer() {
+            let ret = !retning.checked
+
+            filtrerteVarer = filtrerteVarer.sort((a, b) => {
+                if (sorteringvelger.value == "alfabetisk") {
+                    return ret ? a.navn.localeCompare(b.navn) : b.navn.localeCompare(a.navn)
+                } else if (sorteringvelger.value == "pris") {
+                    return ret ? a.pris - b.pris : b.pris - a.pris
+                }
+            })
             const vareKonteiner = document.getElementById('vareKonteiner');
             vareKonteiner.replaceChildren()
 
@@ -204,8 +297,6 @@
                 vareKonteiner.appendChild(vareKomponent);
             });
         }
-
-
 
 
     </script>
