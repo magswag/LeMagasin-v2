@@ -152,3 +152,25 @@ class VareKomponent extends HTMLElement {
 }
 
 customElements.define("vare-komponent", VareKomponent)
+
+class KategoriListe extends HTMLElement {
+    constructor() {
+        super()
+        this.shadow = this.attachShadow({ mode: 'open' });
+    }
+
+    connectedCallback() {
+        this.shadow.innerHTML = `
+            <style>
+                li {
+                    list-style-type: none;
+                }
+            </style>
+            <ul>
+                <slot></slot>
+            </ul>
+        `
+    }
+}
+
+customElements.define("kategori-liste", KategoriListe)

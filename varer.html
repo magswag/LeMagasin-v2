@@ -77,6 +77,20 @@
             width: 100%;
         }
 
+        li {
+            list-style-type: none;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nested {
+            display: block;
+        }
+
+        .aktiv {
+            display: block;
+        }
+
         @media only screen and (min-width:1025px) {
             #vareKonteiner {
                 grid-template-columns: repeat(10, 1fr);
@@ -138,6 +152,31 @@
                     <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
                     <option value="frukt">&nbsp;&nbsp;&nbsp;&nbsp;Frukt</option>
                 </select>
+                <ul>
+                    <li class="velger" data-kat="">Alle
+                        <ul class="nested">
+                            <li class="velger" data-kat="grønt">Grønt
+                                <ul class="nested">
+                                    <li data-kat="grønnsaker">Grønnsaker</li>
+                                    <li data-kat="frukt">Frukt</li>
+                                </ul>
+                            </li>
+                            <li class="velger" data-kat="drikke">Drikke
+                                <ul class="nested">
+                                    <li data-kat="leskedrikke">Leskedrikke</li>
+                                    <li data-kat="melk">Melk</li>
+                                    <li data-kat="alkohol">Alkohol</li>
+                                </ul>
+                            </li>
+                            <li class="velger" data-kat="meieriprodukter">Meieriprodukter
+                                <ul class="nested">
+                                    <li data-kat="ost">Ost</li>
+                                    <li data-kat="melk">Melk</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
                 <label for="sorteringvelger">Sortering:</label>
                 <select name="sortering" id="sorteringvelger">
                     <option value="alfabetisk">Alfabetisk</option>
@@ -255,7 +294,7 @@
             tegnVarer()
         })
 
-        kategorivelger.addEventListener("change", ev => {
+        function påKategoriEndring(ev) {
             filtrerVarer(varesøk.value, kategorivelger.value)
             tegnVarer()
             if (kategorivelger.value != "") {
@@ -264,6 +303,21 @@
                 params.delete("kategori")
             }
             history.replaceState(null, null, "?" + (params.toString()));
+        }
+
+        function påKategoriEndring2(verdi) {
+            filtrerVarer(varesøk.value, verdi)
+            tegnVarer()
+            if (verdi != "") {
+                params.set("kategori", verdi)
+            } else {
+                params.delete("kategori")
+            }
+            history.replaceState(null, null, "?" + (params.toString()));
+        }
+
+        kategorivelger.addEventListener("change", ev => {
+            påKategoriEndring(ev)
         })
 
         søkform.addEventListener("submit", ev => {
@@ -298,7 +352,11 @@
             });
         }
 
-
+        document.querySelectorAll("li").forEach(li => {
+            li.addEventListener("click", ev => {
+                påKategoriEndring2(ev.target.dataset.kat)
+            })
+        })
     </script>
 </body>
 
