@@ -16,7 +16,7 @@
     <link rel="preload" as="image" href="bilder/varer/banan.webp" type="image/webp">
     <link rel="preload" as="image" href="bilder/varer/paprika.webp" type="image/webp">
     <link rel="preload" as="image" href="bilder/varer/appelsin.webp" type="image/webp">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="description"
         content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,18 +25,29 @@
     <style>
         body {
             margin: 0px;
-            background-color: rgb(204, 222, 203);
+            background-color: white;
         }
 
         #vareKonteiner {
+            box-sizing: border-box;
+            width: 100%;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             padding: 8px;
             gap: 8px;
         }
 
         header {
-            background-color: aliceblue;
+            background-color: white;
+            padding: 16px;
+            font-family: "Segoe UI";
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 999;
+        }
+
+        header > h1 {
+            margin: 0px;
         }
 
         #varesøk {
@@ -60,6 +71,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+
         }
 
         #søkform {
@@ -72,7 +84,7 @@
         }
 
         .søkefelt {
-            background-color: white;
+            background-color: rgb(225, 235, 225);
             height: 100%;
             width: 100%;
         }
@@ -91,9 +103,21 @@
             display: block;
         }
 
+        .mobil {
+            display: block;
+        }
+
+        .pc {
+            display: none;
+        }
+
         @media only screen and (min-width:1025px) {
-            #vareKonteiner {
-                grid-template-columns: repeat(10, 1fr);
+            .mobil {
+                display: none;
+            }
+
+            .pc {
+                display: block;
             }
 
             .søkefelt {
@@ -132,27 +156,35 @@
                 opacity: 1;
             }
         }
+
+        select, input[type="checkbox"] {
+            border-radius: 100px;
+            padding: 8px;
+        }
     </style>
 </head>
 
 <body>
-    <navigasjon-komponent></navigasjon-komponent>
     <header>
-        Le Magasin
+        <h1>Le Magasin</h1>
     </header>
     <div class="lay">
         <div class="søkefelt">
             <form action="." id="søkform">
                 <label for="varesøk">Søk:</label>
                 <input type="search" id="varesøk" placeholder="Søk etter varer her" name="q">
-                <label for="kategorivelger">Kategori:</label>
-                <select name="kategori" id="kategorivelger">
+                <label for="kategorivelger" class="mobil">Kategori:</label>
+                <select name="kategori" class="mobil" id="kategorivelger">
                     <option value="">Alle</option>
                     <option value="grønt">Grønt</option>
                     <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
                     <option value="frukt">&nbsp;&nbsp;&nbsp;&nbsp;Frukt</option>
+                    <option value="drikke">Drikke</option>
+                    <option value="leskedrikke">&nbsp;&nbsp;&nbsp;&nbsp;Leskedrikke</option>
+                    <option value="melk">&nbsp;&nbsp;&nbsp;&nbsp;Melk</option>
+                    <option value="alkohol">&nbsp;&nbsp;&nbsp;&nbsp;Alkohol</option>
                 </select>
-                <ul>
+                <ul class="pc">
                     <li class="velger" data-kat="">Alle
                         <ul class="nested">
                             <li class="velger" data-kat="grønt">Grønt
@@ -183,10 +215,14 @@
                     <option value="pris">Pris</option>
                     <option value="farge">Farge</option>
                 </select>
-                <input type="checkbox" name="" id="retning" style="width:48px; height: 48px;">
+                <label for="retning">Sorteringsretning:</label>
+                <input type="checkbox" name="retning" id="retning" style="width:48px; height: 48px;">
         </div>
         <div id="vareKonteiner"></div>
     </div>
+
+    <navigasjon-komponent></navigasjon-komponent>
+
 
     <script>
         const varer = [
@@ -259,6 +295,41 @@
                 pris: 14.05,
                 bilde: "paprika",
                 kategorier: ["grønt", "grønnsaker"]
+            },
+            {
+                navn: "Coca Cola",
+                beskrivelse: "0,5l flaske",
+                pris: 21.7,
+                bilde: "coca-cola",
+                kategorier: ["drikke", "leskedrikke"]
+            },
+            {
+                navn: "Fanta",
+                beskrivelse: "Appelsin 0,5l flaske",
+                pris: 22.6,
+                bilde: "fanta",
+                kategorier: ["drikke", "leskedrikke"]
+            },
+            {
+                navn: "Red Bull Regular",
+                beskrivelse: "473ml boks",
+                pris: 34.9,
+                bilde: "red-bull",
+                kategorier: ["drikke", "leskedrikke"]
+            },
+            {
+                navn: "Pepsi Max",
+                beskrivelse: "0,5l flaske",
+                pris: 22.9,
+                bilde: "pepsi-max",
+                kategorier: ["drikke", "leskedrikke"]
+            },
+            {
+                navn: "Sprite",
+                beskrivelse: "0,5l flaske",
+                pris: 21.7,
+                bilde: "sprite",
+                kategorier: ["drikke", "leskedrikke"]
             },
         ]
 
