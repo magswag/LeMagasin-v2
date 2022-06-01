@@ -60,6 +60,7 @@
         .kort img {
           aspect-ratio: 4 / 3;
           width: 100%;
+          border-radius: 36px;
         }
 
         .innhold {
@@ -71,21 +72,35 @@
         .innhold * {
           margin: 0px;
         }
+
+        @media only screen and (min-width:1025px) {
+          .karusell-konteiner {
+            width: 100%;
+            overflow: hidden;
+            scroll-snap-type: none;
+          }
+
+          .kort {
+            flex-shrink: 1;
+          }
+        }
     </style>
 </head>
 
 <body>
     <navigasjon-komponent></navigasjon-komponent>
+    <h1>Ukas retter</h1>
     <div class="konteiner">
       <div class="karusell-konteiner">
 
       </div>
-      <div>
-        <h1></h1>
-      </div>
     </div>
     <script>
       const ukasRetter = [
+        {
+          navn: "Fruktsalat",
+          bilde: "http://placehold.jp/400x300.png"
+        },
         {
           navn: "Fruktsalat",
           bilde: "http://placehold.jp/400x300.png"
@@ -109,7 +124,7 @@
       ukasRetter.forEach(rett => {
         ukasRetterKonteiner.innerHTML += `
           <div class="kort">
-            <img src="${rett.bilde}" />
+            <img draggable="false" src="${rett.bilde}" />
             <div class="innhold">
               <h1>${rett.navn}</h1>
             </div>

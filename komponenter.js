@@ -101,7 +101,9 @@ class NavigasjonKomponent extends HTMLElement {
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <style>
                 .topp {
-                    background-color: white;
+                    background-color: rgba(255, 255, 255, 0.75);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
                     display: flex;
                     justify-content: space-around;
                     padding: 8px;
@@ -116,7 +118,7 @@ class NavigasjonKomponent extends HTMLElement {
                     font-family: sans-serif;
                     color: black;
                     display:flex;
-                    gap: 4px;
+                    gap: 0px;
                     flex-direction: column;
                     align-items: center;
                     text-decoration: none;
@@ -243,7 +245,7 @@ class VareKomponent extends HTMLElement {
             <div id="topp">
                 <img draggable="false" src="bilder/varer/${this.vare.bilde}.webp" alt="${this.vare.navn}">
                 <div class="info">
-                    <h2>${this.vare.navn}</h2>
+                    <h3>${this.vare.navn}</h3>
                     <p>${this.vare.beskrivelse}</p>
                 </div>
                 <div id="aa">
