@@ -48,17 +48,17 @@ function getAverageRGB(imgEl) {
 class NavigasjonKomponent extends HTMLElement {
     constructor(ruter = [
         {
-            rute: "/",
+            rute: "index.html",
             tekst: "Hjem",
             ikon: "home"
         },
         {
-            rute: "/varer.html",
+            rute: "varer.html",
             tekst: "Varer",
             ikon: "store"
         },
         {
-            rute: "/varer.html",
+            rute: "varer.html",
             tekst: "Profil",
             ikon: "person"
         }
@@ -71,13 +71,25 @@ class NavigasjonKomponent extends HTMLElement {
     nummere() {
         let yeh = ""
 
-        this.ruter.forEach((rute) => {
+        this.ruter.forEach(rute => {
             yeh += `
                 <a href="${rute.rute}">
                     <span class="material-icons md-24">${rute.ikon}</span>
                     ${rute.tekst}
                 </a>
                 
+            `
+        })
+
+        return yeh
+    }
+
+    linker() {
+        let yeh = ""
+
+        this.ruter.forEach(rute => {
+            yeh += `
+                <li><a href="${rute.rute}">${rute.tekst}</a></li>
             `
         })
 
@@ -110,6 +122,40 @@ class NavigasjonKomponent extends HTMLElement {
                     text-decoration: none;
                 }
 
+                header {
+                    width: 100%;
+                    box-sizing: border-box;
+                    padding: 16px;
+                    background-color: lightgreen;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;              
+                }
+
+                h1 {
+                    margin: 0px;
+                    font-family: serif;
+                }
+
+                ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    display: none;
+                }
+
+                li {
+                    font-size: 1.25rem;
+                    float: left;
+                    border-radius: 512px;
+                    padding: 16px;
+                }
+
+                li:hover {
+                    background-color: red;
+                 
+                }
+
                 @media only screen and (min-width:1025px) {
                     .mobil {
                         display: none;
@@ -120,10 +166,15 @@ class NavigasjonKomponent extends HTMLElement {
                     }
                 }
             </style>
-            <div id="yee">
-            <div class="topp">${this.nummere()}</div>
+            <header>
+                <h1>Le Magasin</h1>
+                <ul class="pc">
+                    ${this.linker()}
+                </ul>
+            </header>
+
+            <div class="topp mobil">${this.nummere()}</div>
         `
-        this.shadowRoot.querySelector("#yee").style.height = this.shadowRoot.querySelector(".topp").clientHeight + "px"
     }
 }
 
@@ -190,7 +241,7 @@ class VareKomponent extends HTMLElement {
                 
             </style>
             <div id="topp">
-                <img src="bilder/varer/${this.vare.bilde}.webp" alt="${this.vare.navn}">
+                <img draggable="false" src="bilder/varer/${this.vare.bilde}.webp" alt="${this.vare.navn}">
                 <div class="info">
                     <h2>${this.vare.navn}</h2>
                     <p>${this.vare.beskrivelse}</p>

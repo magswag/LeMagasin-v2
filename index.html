@@ -10,6 +10,7 @@
     <meta name="description"
         content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Hjem</title>
     <!--
     <script>
@@ -31,15 +32,90 @@
     <style>
         body {
             margin: 0px;
-            background-color: rgb(204, 222, 203);
+            background-color: white;
+        }
+
+        .konteiner {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .karusell-konteiner {
+          overflow: auto;
+          display: flex;
+          gap: 16px;
+          scroll-snap-type: x mandatory;
+        }
+
+        .kort {
+          border-radius: 36px;
+          overflow: hidden;
+          width: 100vw;
+          box-sizing: content-box;
+          scroll-snap-align: start;
+          flex-shrink: 0;
+          background-color: rgb(225, 235, 225);
+        }
+
+        .kort img {
+          aspect-ratio: 4 / 3;
+          width: 100%;
+        }
+
+        .innhold {
+          display: flex;
+          flex-direction: column;
+          padding: 16px;
+        }
+
+        .innhold * {
+          margin: 0px;
         }
     </style>
 </head>
 
 <body>
     <navigasjon-komponent></navigasjon-komponent>
-    <script>
+    <div class="konteiner">
+      <div class="karusell-konteiner">
 
+      </div>
+      <div>
+        <h1></h1>
+      </div>
+    </div>
+    <script>
+      const ukasRetter = [
+        {
+          navn: "Fruktsalat",
+          bilde: "http://placehold.jp/400x300.png"
+        },
+        {
+          navn: "Fruktsalat",
+          bilde: "http://placehold.jp/400x300.png"
+        },
+        {
+          navn: "Fruktsalat",
+          bilde: "http://placehold.jp/400x300.png"
+        },
+        {
+          navn: "Fruktsalat",
+          bilde: "http://placehold.jp/400x300.png"
+        },
+      ]
+
+      const ukasRetterKonteiner = document.querySelector(".karusell-konteiner")
+      
+      ukasRetter.forEach(rett => {
+        ukasRetterKonteiner.innerHTML += `
+          <div class="kort">
+            <img src="${rett.bilde}" />
+            <div class="innhold">
+              <h1>${rett.navn}</h1>
+            </div>
+          </div>
+        `
+      })
     </script>
 </body>
 
