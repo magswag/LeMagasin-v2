@@ -7,184 +7,22 @@
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
     <!--<link rel="manifest" href="manifest.webmanifest">-->
-    <link rel="preload" as="image" href="bilder/varer/eple.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/brokkoli.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/ananas.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/mango.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/mais-green-giant.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/gulrøtter.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/banan.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/paprika.webp" type="image/webp">
-    <link rel="preload" as="image" href="bilder/varer/appelsin.webp" type="image/webp">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="description"
         content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Varer</title>
-    <script src="komponenter.js" type="module"></script>
-    <style>
-        body {
-            margin: 0px;
-            background-color: white;
-        }
-
-        #vareKonteiner {
-            box-sizing: border-box;
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            padding: 8px;
-            gap: 8px;
-        }
-
-        header {
-            background-color: white;
-            padding: 16px;
-            font-family: "Segoe UI";
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 999;
-        }
-
-        header>h1 {
-            margin: 0px;
-        }
-
-        #varesøk {
-            border-radius: 500px;
-            border: 1px solid green;
-            padding: 8px;
-            font-size: large;
-            height: 48px;
-        }
-
-
-        vare-komponent {
-            animation: fadeIn 0.42s ease-in-out;
-        }
-
-        .lay {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-        }
-
-        #søkform {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            box-sizing: border-box;
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-
-        .søkefelt {
-            background-color: lightgreen;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            box-sizing: border-box;
-        }
-
-        li {
-            list-style-type: none;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .nested {
-            display: block;
-        }
-
-        .aktiv {
-            display: block;
-        }
-
-        .mobil {
-            display: block;
-        }
-
-        .pc {
-            display: none;
-        }
-
-        @media only screen and (min-width:1025px) {
-            .mobil {
-                display: none;
-            }
-
-            .pc {
-                display: block;
-            }
-
-            .søkefelt {
-                width: 25%;
-                height: 100%;
-            }
-
-            .lay {
-                flex-direction: row;
-                align-items: flex-start;
-                height: 100vh;
-                justify-content: start;
-            }
-
-            .søkefelt {
-                background-color: rgb(225, 235, 225);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeOut {
-            to {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-
-            from {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        select,
-        input[type="checkbox"] {
-            border-radius: 100px;
-            padding: 8px;
-        }
-
-        .filterscroll {
-            display: flex;
-            flex-direction: row;
-            overflow-x: scroll;
-            gap: 8px;
-            align-items: center;
-            padding-left: 16px;
-            padding-right: 16px;
-            padding-bottom: 8px;
-        }
-    </style>
+    <script src="komponenter.js"></script>
+    <script src="varer.js"></script>
+    <link rel="stylesheet" href="varer.css">
 </head>
 
 <body>
     <navigasjon-komponent></navigasjon-komponent>
-
+    <fab-komponent>
+        <p id="handlevogn-pris">0kr</p>
+        <span class="material-icons" style="font-size: 36px;">shopping_cart</span>
+    </fab-komponent>
     <div class="lay">
         <div class="søkefelt">
             <form action="." id="søkform">
@@ -229,7 +67,7 @@
                     <option value="melk">&nbsp;&nbsp;&nbsp;&nbsp;Melk</option>
                     <option value="alkohol">&nbsp;&nbsp;&nbsp;&nbsp;Alkohol</option>
                 </select>
-                <select name="sortering" aria-label="Sortering"  id="sorteringvelger">
+                <select name="sortering" aria-label="Sortering" id="sorteringvelger">
                     <option value="alfabetisk">Alfabetisk</option>
                     <option value="pris">Pris</option>
                     <option value="farge">Farge</option>
@@ -243,115 +81,10 @@
 
 
     <script>
-        const varer = [
-            {
-                navn: "Ananas",
-                beskrivelse: "stykk",
-                pris: 26.9,
-                bilde: "ananas",
-                kategorier: ["grønt", "frukt"]
-            },
-            {
-                navn: "Eple",
-                beskrivelse: "180g",
-                pris: 5.92,
-                bilde: "eple",
-                kategorier: ["grønt", "frukt"]
-            },
-            {
-                navn: "Mango",
-                beskrivelse: "stykk",
-                pris: 12.5,
-                bilde: "mango",
-                kategorier: ["grønt", "frukt"]
-            },
-            {
-                navn: "Brokkoli",
-                beskrivelse: "stykk",
-                pris: 17.9,
-                bilde: "brokkoli",
-                kategorier: ["grønt", "grønnsaker"]
-            },
-            {
-                navn: "Gulrøtter",
-                beskrivelse: "400g",
-                pris: 13.9,
-                bilde: "gulrøtter",
-                kategorier: ["grønt", "grønnsaker"]
-            },
-            {
-                navn: "Tomat",
-                beskrivelse: "stykk",
-                pris: 2.39,
-                bilde: "tomat",
-                kategorier: ["grønt", "grønnsaker"]
-            },
-            {
-                navn: "Banan",
-                beskrivelse: "180g",
-                pris: 4.3,
-                bilde: "banan",
-                kategorier: ["grønt", "frukt"]
-            },
-            {
-                navn: "Appelsin",
-                beskrivelse: "stykk",
-                pris: 9.42,
-                bilde: "appelsin",
-                kategorier: ["grønt", "frukt"]
-            },
-            {
-                navn: "Maiskorn",
-                beskrivelse: "Extra Crispy 160g Green Giant",
-                pris: 17,
-                bilde: "mais-green-giant",
-                kategorier: ["grønt", "grønnsaker"]
-            },
-            {
-                navn: "Paprika",
-                beskrivelse: "stykk rød",
-                pris: 14.05,
-                bilde: "paprika",
-                kategorier: ["grønt", "grønnsaker"]
-            },
-            {
-                navn: "Coca Cola",
-                beskrivelse: "0,5l flaske",
-                pris: 21.7,
-                bilde: "coca-cola",
-                kategorier: ["drikke", "leskedrikke"]
-            },
-            {
-                navn: "Fanta",
-                beskrivelse: "Appelsin 0,5l flaske",
-                pris: 22.6,
-                bilde: "fanta",
-                kategorier: ["drikke", "leskedrikke"]
-            },
-            {
-                navn: "Red Bull Regular",
-                beskrivelse: "473ml boks",
-                pris: 34.9,
-                bilde: "red-bull",
-                kategorier: ["drikke", "leskedrikke"]
-            },
-            {
-                navn: "Pepsi Max",
-                beskrivelse: "0,5l flaske",
-                pris: 22.9,
-                bilde: "pepsi-max",
-                kategorier: ["drikke", "leskedrikke"]
-            },
-            {
-                navn: "Sprite",
-                beskrivelse: "0,5l flaske",
-                pris: 21.7,
-                bilde: "sprite",
-                kategorier: ["drikke", "leskedrikke"]
-            },
-        ]
+
 
         let filtrerteVarer = []
+        let handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
 
         function filtrerVarer(søk, kategori) {
             if (kategori != "") {
@@ -360,14 +93,16 @@
             } else {
                 filtrerteVarer = varer
             }
-            filtrerteVarer = filtrerteVarer.filter(vare => vare.navn.toLowerCase().includes(søk.toLowerCase()))
+            filtrerteVarer = filtrerteVarer.filter(vare => { 
+                return vare.navn.toLowerCase().includes(søk.toLowerCase()) || vare.beskrivelse.toLowerCase().includes(søk.toLowerCase())
+            })
         }
 
         let params = new URLSearchParams(window.location.search)
         filtrerVarer(params.get("søk") || "", params.get("kategori") || "")
         const sorteringvelger = document.getElementById('sorteringvelger');
         const retning = document.getElementById('retning');
-
+        const fab = document.querySelector("fab-komponent")
 
         tegnVarer()
 
@@ -376,9 +111,11 @@
         varesøk.value = params.get("søk") || "";
         const kategorivelger = document.getElementById('kategorivelger');
         kategorivelger.value = params.get("kategori") || "";
+
         retning.addEventListener("change", ev => {
             tegnVarer()
         })
+
         sorteringvelger.addEventListener("change", ev => {
             tegnVarer()
         })
@@ -437,8 +174,20 @@
             filtrerteVarer.forEach(vare => {
                 const vareKomponent = document.createElement('vare-komponent');
                 vareKomponent.vare = vare
+                vareKomponent.addEventListener("lagtTilIVogn", e => {
+                    let eksisterende = handlevogn.find(v => v.vara.navn == vareKomponent.vare.navn)
+                    if (eksisterende != null) {
+                        eksisterende.antall++
+                    } else {
+                        handlevogn.push({ vara: vare, antall: 1 })
+                    }
+
+                    localStorage.setItem("handlevogn", JSON.stringify(handlevogn))
+
+                    oppdaterHandlevognAntall()
+                })
                 vareKonteiner.appendChild(vareKomponent);
-            });
+            })
         }
 
         document.querySelectorAll("li").forEach(li => {
@@ -447,6 +196,18 @@
             })
         })
 
+        const handlevognPrisTekst = document.getElementById('handlevogn-pris');
+
+        oppdaterHandlevognAntall()
+
+        function oppdaterHandlevognAntall() {
+            let antallVarer = handlevogn.reduce((acc, v) => acc + v.antall, 0)
+            fab.mengde = antallVarer
+
+            let pris = handlevogn.reduce((acc, v) => acc + v.vara.pris * v.antall, 0)
+            handlevognPrisTekst.innerHTML = pris.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })
+        }
+        
 
     </script>
 </body>

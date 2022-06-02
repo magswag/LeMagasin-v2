@@ -66,7 +66,7 @@
         .innhold {
           display: flex;
           flex-direction: column;
-          padding: 16px;
+          padding: 32px;
         }
 
         .innhold * {
@@ -99,23 +99,28 @@
       const ukasRetter = [
         {
           navn: "Fruktsalat",
-          bilde: "http://placehold.jp/400x300.png"
+          bilde: "http://placehold.jp/400x300.png",
+          beskrivelse: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla orci eu scelerisque ullamcorper. Phasellus laoreet leo vitae lorem accumsan, eu mattis sem consectetur. Praesent."
         },
         {
           navn: "Fruktsalat",
-          bilde: "http://placehold.jp/400x300.png"
+          bilde: "http://placehold.jp/400x300.png",
+          beskrivelse: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla orci eu scelerisque ullamcorper. Phasellus laoreet leo vitae lorem accumsan, eu mattis sem consectetur. Praesent."
         },
         {
           navn: "Fruktsalat",
-          bilde: "http://placehold.jp/400x300.png"
+          bilde: "http://placehold.jp/400x300.png",
+          beskrivelse: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla orci eu scelerisque ullamcorper. Phasellus laoreet leo vitae lorem accumsan, eu mattis sem consectetur. Praesent."
         },
         {
           navn: "Fruktsalat",
-          bilde: "http://placehold.jp/400x300.png"
+          bilde: "http://placehold.jp/400x300.png",
+          beskrivelse: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla orci eu scelerisque ullamcorper. Phasellus laoreet leo vitae lorem accumsan, eu mattis sem consectetur. Praesent."
         },
         {
           navn: "Fruktsalat",
-          bilde: "http://placehold.jp/400x300.png"
+          bilde: "http://placehold.jp/400x300.png",
+          beskrivelse: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla orci eu scelerisque ullamcorper. Phasellus laoreet leo vitae lorem accumsan, eu mattis sem consectetur. Praesent."
         },
       ]
 
@@ -127,6 +132,7 @@
             <img draggable="false" src="${rett.bilde}" />
             <div class="innhold">
               <h1>${rett.navn}</h1>
+              <p>${rett.beskrivelse}</p>
             </div>
           </div>
         `

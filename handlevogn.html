@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+  <!--<link rel="manifest" href="manifest.webmanifest">-->
+  <meta name="description"
+    content="Le Magasin tilbyr de ferskeste og sunneste matvarene i Norge. Få varene levert på døra for en billig penge.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Handlevogn</title>
+  <!--
+    <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(
+              registration => {
+                console.log(`Service Worker registered! Scope: ${registration.scope}`);
+              },
+              error => {
+                console.error(`Service Worker registration failed: ${error}`);
+              },
+            );
+          });
+        }
+      </script>
+      -->
+  <script src="komponenter.js" type="module"></script>
+  <style>
+    body {
+      margin: 0px;
+      background-color: white;
+      padding-bottom: 150px;
+
+    }
+
+    #vare-konteiner {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .vare-kort {
+      background-color: lightblue;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-radius: 36px;
+    }
+
+    .vare-kort img {
+      width: 100px;
+      aspect-ratio: 1;
+      object-fit: contain;
+    }
+
+    .vare-tekst {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+    }
+
+    h3,
+    p,h1 {
+      margin: 0px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <navigasjon-komponent></navigasjon-komponent>
+  <div id="vare-konteiner">
+
+  </div>
+  <h1 id="sum">1000kr</h1>
+  <button onclick="tøm()">Tøm vogn</button>
+  <script>
+    let handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
+
+    const vareKonteiner = document.getElementById("vare-konteiner")
+    const sum = document.getElementById("sum")
+
+    function nok(p) {
+      return p.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })
+    }
+
+    handlevogn.forEach(v => {
+      vareKonteiner.innerHTML += `
+      <div class="vare-kort">
+        <img src="bilder/varer/${v.vara.bilde}.webp" alt="${v.vara.navn}">
+        <div class="vare-tekst">
+          <h3>${v.vara.navn} x${v.antall}</h3>
+          <p>${nok(v.vara.pris)} x ${v.antall} = ${nok(v.vara.pris * v.antall)}</p>
+        </div>
+      `
+    });
+
+    sum.innerHTML = `${nok(handlevogn.reduce((acc, v) => acc + v.vara.pris * v.antall, 0))}`
+
+    function tøm() {
+      localStorage.removeItem("handlevogn")
+      location.reload()
+    }
+  </script>
+</body>
+
+</html>

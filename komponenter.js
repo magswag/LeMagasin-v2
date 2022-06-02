@@ -250,7 +250,7 @@ class VareKomponent extends HTMLElement {
                 </div>
                 <div id="aa">
                     <button>
-                        ${this.vare.pris.toString().replace(".", ",")} kr
+                        ${this.vare.pris.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })}
                         <span class="material-icons md-24">add_shopping_cart</span>
                     </button>
                 </div>
@@ -262,6 +262,11 @@ class VareKomponent extends HTMLElement {
         // this.shadowRoot.querySelector("#topp").style.backgroundColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
 
         // }
+        this.shadowRoot.querySelectorAll("button").forEach(knapp => {
+            knapp.addEventListener("click", ev => {
+                this.dispatchEvent(new CustomEvent("lagtTilIVogn", { bubbles: true, cancelable: false, composed: true }))
+            })
+        })
     }
 }
 
@@ -288,3 +293,77 @@ class KategoriListe extends HTMLElement {
 }
 
 customElements.define("kategori-liste", KategoriListe)
+
+class FAB extends HTMLElement {
+    get mengde() {
+        return this.getAttribute("mengde")
+    }
+
+    set mengde(ny) {
+        this.setAttribute("mengde", ny)
+    }
+
+    constructor() {
+        super()
+        this.shadow = this.attachShadow({ mode: 'open' });
+    }
+
+    static get observedAttributes() { return ["mengde"] }
+
+    attributeChangedCallback(n, ov, ny) {
+        if (ov != ny) {
+            this.tegn()
+        }
+    }
+
+    connectedCallback() {
+        this.tegn()
+
+    }
+
+    tegn() {
+        this.shadow.innerHTML = `
+        <style>
+            a {
+                background-color: rgb(0, 128, 0);
+                color: white;
+                padding: 24px;
+                border-radius: 24px;
+                border: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                cursor: pointer;
+                position: fixed;
+                right: 16px;
+                bottom: 72px;
+                z-index: 9999;
+                box-shadow: 0px 3px 8px rgba(0,0,0,0.65);
+                text-decoration: none;
+                font-family: sans-serif;
+            }
+
+            .badge {
+                font-size: 18px;
+                background-color: red;
+                border-radius: 50%;
+                color: white;
+                width: 32px;
+                aspect-ratio: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: -8px;
+                top: -8px;
+            }
+        </style>
+        <a href="handlevogn.html">
+            <slot></slot>
+            <span class="badge">${this.mengde}</span>
+        </a>
+    `
+    }
+}
+
+customElements.define("fab-komponent", FAB)

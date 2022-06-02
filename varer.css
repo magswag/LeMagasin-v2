@@ -1,0 +1,156 @@
+body {
+    margin: 0px;
+    background-color: white;
+}
+
+#vareKonteiner {
+    box-sizing: border-box;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 8px;
+    gap: 8px;
+}
+
+header {
+    background-color: white;
+    padding: 16px;
+    font-family: "Segoe UI";
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 999;
+}
+
+header>h1 {
+    margin: 0px;
+}
+
+#varesøk {
+    border-radius: 500px;
+    border: 1px solid green;
+    padding: 8px;
+    font-size: large;
+    height: 48px;
+}
+
+
+vare-komponent {
+    animation: fadeIn 0.42s ease-in-out;
+}
+
+.lay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#søkform {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.søkefelt {
+    background-color: lightgreen;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+li {
+    list-style-type: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.nested {
+    display: block;
+}
+
+.aktiv {
+    display: block;
+}
+
+.mobil {
+    display: block;
+}
+
+.pc {
+    display: none;
+}
+
+@media only screen and (min-width:1025px) {
+    .mobil {
+        display: none;
+    }
+
+    .pc {
+        display: block;
+    }
+
+    .søkefelt {
+        width: 25%;
+        height: 100%;
+    }
+
+    .lay {
+        flex-direction: row;
+        align-items: flex-start;
+        height: 100vh;
+        justify-content: start;
+    }
+
+    .søkefelt {
+        background-color: rgb(225, 235, 225);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+select,
+input[type="checkbox"] {
+    border-radius: 100px;
+    padding: 8px;
+}
+
+.filterscroll {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    gap: 8px;
+    align-items: center;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 8px;
+}
