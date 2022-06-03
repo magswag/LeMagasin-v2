@@ -29,14 +29,19 @@
       </script>
       -->
   <script src="komponenter.js" type="module"></script>
+  <link rel="stylesheet" href="generell.css">
   <style>
     body {
       margin: 0px;
-      background-color: white;
+      background-color: var(--farge-bakgrunn);
+    }
+
+    .innhold {
       padding-bottom: 150px;
       display: flex;
       flex-direction: column;
-
+      gap: 8px;
+      margin: 8px;
     }
 
     #vare-konteiner {
@@ -45,18 +50,29 @@
       gap: 4px;
     }
 
-    .vare-kort {
-      background-color: lightblue;
+    .vare {
       display: inline-flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
       padding: 16px;
-      border-radius: 36px;
     }
 
-    .vare-kort img {
-      width: 100px;
+    #sum {
+      font-family: sans-serif;
+      color: var(--farge-tekst-overflate)
+    }
+
+    .vare h3,
+    .vare p,
+    .vare h1 {
+      margin: 0px;
+      font-family: sans-serif;
+      color: var(--farge-tekst-overflate)
+    }
+
+    .vare img {
+      width: 50px;
       aspect-ratio: 1;
       object-fit: contain;
     }
@@ -68,24 +84,36 @@
       align-items: flex-end;
     }
 
-    h3,
-    p,
-    h1 {
-      margin: 0px;
-      font-family: sans-serif;
+    .start {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .vare button {
+      border: none;
+      font-size: 24px;
+      border-radius: 128px;
+      background-color: white;
+      padding: 10px;
     }
   </style>
 </head>
 
 <body>
-  <navigasjon-komponent></navigasjon-komponent>
+  <navigasjon-komponent tilbake="varer.html">
+    <h1 slot="tittel">Handlevogn</h1>
+  </navigasjon-komponent>
+  <div class="innhold">
+    <div id="vare-konteiner"></div>
+    <h1 id="sum">1000kr</h1>
+    <button onclick="tøm()" class="farga-knapp">Tøm vogn</button>
+    <a class="farga-knapp" href="kasse.html">Til kassa</a>
+  </div>
 
-  <div id="vare-konteiner"></div>
-  <h1 id="sum">1000kr</h1>
-  <button onclick="tøm()">Tøm vogn</button>
-  <a href="kasse.html">Til kassa</a>
+  <script type="module">
 
-  <script>
     let handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
 
     const vareKonteiner = document.getElementById("vare-konteiner")
@@ -95,18 +123,44 @@
       return p.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })
     }
 
-    handlevogn.forEach(v => {
-      vareKonteiner.innerHTML += `
-      <div class="vare-kort">
-        <img src="bilder/varer/${v.vara.bilde}.webp" alt="${v.vara.navn}">
-        <div class="vare-tekst">
-          <h3>${v.vara.navn} x${v.antall}</h3>
-          <p>${nok(v.vara.pris)} x ${v.antall} = ${nok(v.vara.pris * v.antall)}</p>
-        </div>
-      `
-    });
+    function tegn() {
+      vareKonteiner.replaceChildren()
+      handlevogn.forEach((v, i) => {
+        vareKonteiner.innerHTML += `
+      <div class="vare kort">
+            <mengde-komponent verdi="${v.antall}" data-i="${i}"></mengde-komponent>
+          <div class="start">
 
-    sum.innerHTML = `${nok(handlevogn.reduce((acc, v) => acc + v.vara.pris * v.antall, 0))}`
+          <div class="vare-tekst">
+            <h3>${v.vara.navn}</h3>
+            <p>${nok(v.vara.pris)} x ${v.antall} = ${nok(v.vara.pris * v.antall)}</p>
+          </div>
+            <img src="bilder/varer/${v.vara.bilde}.webp" alt="${v.vara.navn}">
+          </div>
+      </div>
+      `
+      });
+
+      vareKonteiner.querySelectorAll("mengde-komponent").forEach(komp => {
+        komp.addEventListener("senka", e => {
+          handlevogn[komp.dataset.i].antall--
+          tegn()
+          localStorage.setItem("handlevogn", JSON.stringify(handlevogn))
+        })
+
+        komp.addEventListener("økt", e => {
+          handlevogn[komp.dataset.i].antall++
+          tegn()
+          localStorage.setItem("handlevogn", JSON.stringify(handlevogn))
+        })
+      });
+      sum.innerHTML = `${nok(handlevogn.reduce((acc, v) => acc + v.vara.pris * v.antall, 0))}`
+    }
+
+    tegn()
+
+
+
 
     function tøm() {
       localStorage.removeItem("handlevogn")

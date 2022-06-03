@@ -1,0 +1,61 @@
+:root {
+    --kort-hjørneradius: 36px;
+    --farge-overflate: rgb(225, 235, 225);
+    --farge-bakgrunn: white;
+    --farge-tekst-overflate: black;
+    --farge-knapp: rgb(0, 128, 0);
+    --farge-tekst-knapp: white;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --farge-overflate: rgb(61, 75, 61);
+        --farge-bakgrunn: black;
+        --farge-tekst-overflate: white;
+        --farge-knapp: rgb(158, 240, 158);
+        --farge-tekst-knapp: black;
+    }
+}
+
+.kort {
+    overflow: hidden;
+    background-color: var(--farge-overflate);
+    border-radius: var(--kort-hjørneradius);
+}
+
+.konteiner {
+    padding: 16px;
+}
+
+input[type=text] {
+    border-radius: 128px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+}
+
+.farga-knapp {
+    background-color: var(--farge-knapp);
+    border-radius: 128px;
+    padding: 16px;
+    color: var(--farge-tekst-knapp);
+    text-decoration: none;
+    font-family: sans-serif;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+
+.farga-knapp:hover {
+    background-color: greenyellow;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.farga-knapp:active {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.35) inset;
+    background-color: green;
+}

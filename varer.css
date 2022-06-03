@@ -1,6 +1,6 @@
 body {
     margin: 0px;
-    background-color: white;
+    background-color: var(--farge-bakgrunn);
 }
 
 #vareKonteiner {

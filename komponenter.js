@@ -1,4 +1,9 @@
 class NavigasjonKomponent extends HTMLElement {
+
+    get tilbakeRute() {
+        return this.getAttribute("tilbake")
+    }
+
     constructor(ruter = [
         {
             rute: "index.html",
@@ -87,11 +92,6 @@ class NavigasjonKomponent extends HTMLElement {
                     justify-content: space-between;              
                 }
 
-                h1 {
-                    margin: 0px;
-                    font-family: serif;
-                }
-
                 ul {
                     list-style-type: none;
                     margin: 0;
@@ -130,8 +130,13 @@ class NavigasjonKomponent extends HTMLElement {
             </style>
             <header>
                 <div class="venstre">
-                    <a class="material-icons" href="${this.ruter[0].rute}">arrow_back</a>
-                    <h1>Le Magasin</h1>
+                    ${this.tilbakeRute ?
+                `<a class="material-icons" href="${this.tilbakeRute}">arrow_back</a>` : ``
+            }
+                    
+                    <slot name="tittel">
+                        <h1>Le Magasin</h1>
+                    </slot>
                 </div>
                 <ul class="pc">
                     ${this.linker()}
@@ -156,7 +161,8 @@ class VareKomponent extends HTMLElement {
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <style>
                 #topp {
-                    background-color: rgb(225, 235, 225);
+                    background-color: var(--farge-overflate);
+                    color: var(--farge-tekst-overflate);
                     border-radius: 36px;
                     display: flex;
                     height: 100%;
@@ -192,8 +198,8 @@ class VareKomponent extends HTMLElement {
                 }
 
                 button {
-                    color: white;
-                    background-color: rgb(0, 128, 0);
+                    color: var(--farge-tekst-knapp);
+                    background-color: var(--farge-knapp);
                     height: 48px;
                     padding: 16px;
                     border-radius: 100px;
@@ -283,8 +289,8 @@ class FAB extends HTMLElement {
         this.shadow.innerHTML = `
         <style>
             a {
-                background-color: rgb(0, 128, 0);
-                color: white;
+                background-color: var(--farge-knapp);
+                color: var(--farge-tekst-knapp);
                 padding: 24px;
                 border-radius: 24px;
                 border: none;
@@ -325,3 +331,66 @@ class FAB extends HTMLElement {
 }
 
 customElements.define("fab-komponent", FAB)
+
+class MengdeKomponent extends HTMLElement {
+    get verdi() {
+        return this.getAttribute("verdi") || 0
+    }
+    
+    constructor() {
+        super()
+        this.shadow = this.attachShadow({ mode: 'open' })
+    }
+
+    decrement() {
+        console.log("ll")
+    }
+
+    connectedCallback() {
+        this.shadowRoot.innerHTML = `
+            <style>
+                div {
+                    display: inline-flex;
+                    gap: 4px;
+                }
+
+                button {
+                    user-select: none;
+                    font-size: 24px;
+                    border-radius: 128px;
+                    width:36px;
+                    height:36px;
+                    border: none;
+                    color: var(--farge-tekst-knapp);
+                    background: var(--farge-knapp);
+                    cursor: pointer;
+                }
+
+                button:hover {
+                    box-shadow: 0px 3px 8px rgba(0,0,0,0.5);
+                }
+
+                input {
+                    width: 2em;
+                }
+            </style>
+            <div>
+                <button id="senk">-</button>
+                <input type="number" min="1" max="999" value="${this.verdi}"/>
+                <button id="øk">+</button>
+            </div>
+        `
+        const input = this.shadowRoot.querySelector("input")
+        this.shadowRoot.getElementById("senk").addEventListener("click", e => {
+            input.stepDown()
+            this.dispatchEvent(new CustomEvent("senka", { bubbles: true, cancelable: false, composed: true }))
+        })
+
+        this.shadowRoot.getElementById("øk").addEventListener("click", e => {
+            input.stepUp()
+            this.dispatchEvent(new CustomEvent("økt", { bubbles: true, cancelable: false, composed: true }))
+        })
+    }
+}
+
+customElements.define("mengde-komponent", MengdeKomponent)

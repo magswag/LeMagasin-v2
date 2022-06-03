@@ -12,25 +12,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>Kasse</title>
+  <link rel="stylesheet" href="generell.css">
   <script src="komponenter.js" type="module"></script>
   <style>
     body {
       margin: 0px;
-      background-color: white;
+      background-color: var(--farge-bakgrunn);
       padding-bottom: 150px;
-    }
-
-    .kort {
-      background-color: lightblue;
-      padding: 16px;
-      border-radius: 36px;
-      margin: 8px;
     }
 
     form {
       display: flex;
       flex-direction: column;
       width: 100%;
+    }
+
+    label {
+      font-family: sans-serif;
+      color: var(--farge-tekst-overflate);
     }
 
     form input {
@@ -40,45 +39,58 @@
 </head>
 
 <body>
-  <navigasjon-komponent></navigasjon-komponent>
-  <div class="kort">
-    <form action=".">
-      <label>
-        Fornavn:
-        <br>
-        <input type="name" name="fornavn">
-      </label>
-      <label>
-        Etternavn:
-        <br>
-        <input type="name" name="etternavn">
-      </label>
-      <label>
-        Adresse:
-        <br>
-        <input type="text" name="adresse">
-      </label>
-      <label>
-        E-post:
-        <br>
-        <input type="email" name="epost">
-      </label>
-      <label>
-        Betalingsmetode:
-        <br>
+  <navigasjon-komponent tilbake="handlevogn.html">
+    <h1 slot="tittel">Kasse</h1>
+  </navigasjon-komponent>
+  <div style="margin: 8px;">
+    <div class="kort konteiner">
+      <form name="data" action="kvittering.html" onsubmit="return valider()">
         <label>
-          <input type="radio" name="betalingsmetode" value="kort">
-          Kort
+          Fornavn:
+          <br>
+          <input type="name" name="fornavn">
         </label>
         <label>
-          <input type="radio" name="betalingsmetode" value="vipps">
-          Vipps
+          Etternavn:
+          <br>
+          <input type="name" name="etternavn">
         </label>
-      </label>
-    </form>
+        <label>
+          Adresse:
+          <br>
+          <input type="text" name="adresse">
+        </label>
+        <label>
+          E-post:
+          <br>
+          <input type="email" name="epost">
+        </label>
+        <label>
+          Betalingsmetode:
+          <br>
+          <label>
+            <input type="radio" name="betalingsmetode" value="kort">
+            Kort
+          </label>
+          <label>
+            <input type="radio" name="betalingsmetode" value="vipps">
+            Vipps
+          </label>
+        </label>
+        <button class="farga-knapp">Betal</button>
+      </form>
+    </div>
   </div>
   <script>
+    function valider() {
+      let form = document.forms["data"]
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(form.epost.value)) {
+        return true
+      } else {
+        return false
+      }
 
+    }
   </script>
 </body>
 
