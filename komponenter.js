@@ -291,7 +291,7 @@ class FAB extends HTMLElement {
             a {
                 background-color: var(--farge-knapp);
                 color: var(--farge-tekst-knapp);
-                padding: 24px;
+                padding: 12px;
                 border-radius: 24px;
                 border: none;
                 display: inline-flex;
