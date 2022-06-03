@@ -1,50 +1,3 @@
-function getAverageRGB(imgEl) {
-
-    var blockSize = 5, // only visit every 5 pixels
-        defaultRGB = { r: 0, g: 0, b: 0 }, // for non-supporting envs
-        canvas = document.createElement('canvas'),
-        context = canvas.getContext && canvas.getContext('2d'),
-        data, width, height,
-        i = -4,
-        length,
-        rgb = { r: 0, g: 0, b: 0 },
-        count = 0;
-
-    if (!context) {
-        return defaultRGB;
-    }
-
-    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-
-    context.drawImage(imgEl, 0, 0);
-
-    try {
-        data = context.getImageData(0, 0, width, height);
-    } catch (e) {
-        /* security error, img on diff domain */alert('x');
-        return defaultRGB;
-    }
-
-    length = data.data.length;
-
-    while ((i += blockSize * 4) < length) {
-        ++count;
-        rgb.r += data.data[i];
-        rgb.g += data.data[i + 1];
-        rgb.b += data.data[i + 2];
-    }
-
-    // ~~ used to floor values
-    rgb.r = ~~(rgb.r / count);
-    rgb.g = ~~(rgb.g / count);
-    rgb.b = ~~(rgb.b / count);
-
-    return rgb;
-
-}
-
-
 class NavigasjonKomponent extends HTMLElement {
     constructor(ruter = [
         {
@@ -74,7 +27,7 @@ class NavigasjonKomponent extends HTMLElement {
         this.ruter.forEach(rute => {
             yeh += `
                 <a href="${rute.rute}">
-                    <span class="material-icons md-24">${rute.ikon}</span>
+                    <span class="material-icons">${rute.ikon}</span>
                     ${rute.tekst}
                 </a>
                 
@@ -158,6 +111,13 @@ class NavigasjonKomponent extends HTMLElement {
                  
                 }
 
+                .venstre {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    flex-direction:row
+                }
+
                 @media only screen and (min-width:1025px) {
                     .mobil {
                         display: none;
@@ -169,7 +129,10 @@ class NavigasjonKomponent extends HTMLElement {
                 }
             </style>
             <header>
-                <h1>Le Magasin</h1>
+                <div class="venstre">
+                    <a class="material-icons" href="${this.ruter[0].rute}">arrow_back</a>
+                    <h1>Le Magasin</h1>
+                </div>
                 <ul class="pc">
                     ${this.linker()}
                 </ul>
@@ -256,12 +219,7 @@ class VareKomponent extends HTMLElement {
                 </div>
             </div>
             `
-        //var rgb = getAverageRGB(this.shadowRoot.querySelector("img"))
-        // this.rgb = rgb
-        //  this.shadowRoot.querySelector("img").onload = () => {
-        // this.shadowRoot.querySelector("#topp").style.backgroundColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
 
-        // }
         this.shadowRoot.querySelectorAll("button").forEach(knapp => {
             knapp.addEventListener("click", ev => {
                 this.dispatchEvent(new CustomEvent("lagtTilIVogn", { bubbles: true, cancelable: false, composed: true }))

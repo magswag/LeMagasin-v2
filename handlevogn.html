@@ -34,6 +34,8 @@
       margin: 0px;
       background-color: white;
       padding-bottom: 150px;
+      display: flex;
+      flex-direction: column;
 
     }
 
@@ -67,7 +69,8 @@
     }
 
     h3,
-    p,h1 {
+    p,
+    h1 {
       margin: 0px;
       font-family: sans-serif;
     }
@@ -76,11 +79,12 @@
 
 <body>
   <navigasjon-komponent></navigasjon-komponent>
-  <div id="vare-konteiner">
 
-  </div>
+  <div id="vare-konteiner"></div>
   <h1 id="sum">1000kr</h1>
   <button onclick="tøm()">Tøm vogn</button>
+  <a href="kasse.html">Til kassa</a>
+
   <script>
     let handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
 
