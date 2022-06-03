@@ -12,73 +12,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>Kvittering for kjøp</title>
+  <link rel="stylesheet" href="generell.css">
   <script src="komponenter.js" type="module"></script>
   <style>
     body {
       margin: 0px;
-      background-color: white;
+      background-color: var(--farge-bakgrunn);
       padding-bottom: 150px;
     }
 
     .kort {
-      background-color: lightblue;
-      padding: 16px;
-      border-radius: 36px;
-      margin: 8px;
+      font-family: sans-serif;
+      color: var(--farge-tekst-overflate);
     }
 
-    form {
+    #vareKonteiner {
       display: flex;
       flex-direction: column;
-      width: 100%;
     }
 
-    form input {
-      width: 100%;
+    #vareKonteiner div {
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
   </style>
 </head>
 
 <body>
   <navigasjon-komponent tilbake="handlevogn.html"></navigasjon-komponent>
-  <div class="kort">
-    <form action=".">
-      <label>
-        Fornavn:
-        <br>
-        <input type="name" name="fornavn">
-      </label>
-      <label>
-        Etternavn:
-        <br>
-        <input type="name" name="etternavn">
-      </label>
-      <label>
-        Adresse:
-        <br>
-        <input type="text" name="adresse">
-      </label>
-      <label>
-        E-post:
-        <br>
-        <input type="email" name="epost">
-      </label>
-      <label>
-        Betalingsmetode:
-        <br>
-        <label>
-          <input type="radio" name="betalingsmetode" value="kort">
-          Kort
-        </label>
-        <label>
-          <input type="radio" name="betalingsmetode" value="vipps">
-          Vipps
-        </label>
-      </label>
-    </form>
+  <div style="padding: 8px;">
+    <div class="kort konteiner">
+      <h1>Kvittering</h1>
+      <h2>Navn</h2>
+      <h2>E-post</h2>
+      <div id="vareKonteiner"></div>
+    </div>
   </div>
-  <script>
 
+  <script>
+    const vareKonteiner = document.getElementById("vareKonteiner")
+    const handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
+
+    handlevogn.forEach(vare => {
+      vareKonteiner.innerHTML += `
+        <div>
+          <p>${vare.antall}x${vare.vara.navn}</p>
+          <p>${vare.vara.pris.toFixed(2)}</p>
+          <p>${(vare.antall * vare.vara.pris).toFixed(2)}</p>
+        </div>
+      `
+    });
   </script>
 </body>
 

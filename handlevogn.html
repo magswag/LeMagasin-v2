@@ -90,14 +90,6 @@
       align-items: center;
       gap: 8px;
     }
-
-    .vare button {
-      border: none;
-      font-size: 24px;
-      border-radius: 128px;
-      background-color: white;
-      padding: 10px;
-    }
   </style>
 </head>
 
@@ -133,7 +125,7 @@
 
           <div class="vare-tekst">
             <h3>${v.vara.navn}</h3>
-            <p>${nok(v.vara.pris)} x ${v.antall} = ${nok(v.vara.pris * v.antall)}</p>
+            <p>${nok(v.vara.pris * v.antall)}</p>
           </div>
             <img src="bilder/varer/${v.vara.bilde}.webp" alt="${v.vara.navn}">
           </div>
