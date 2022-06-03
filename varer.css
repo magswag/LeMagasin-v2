@@ -57,7 +57,7 @@ vare-komponent {
 }
 
 .søkefelt {
-    background-color: lightgreen;
+    background-color: var(--farge-overflate);
     height: 100%;
     width: 100%;
     display: flex;

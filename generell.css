@@ -5,6 +5,8 @@
     --farge-tekst-overflate: black;
     --farge-knapp: rgb(0, 128, 0);
     --farge-tekst-knapp: white;
+    --farge-nav: rgba(255, 255, 255, 0.75);
+    --farge-tekst-nav: black;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,6 +16,8 @@
         --farge-tekst-overflate: white;
         --farge-knapp: rgb(158, 240, 158);
         --farge-tekst-knapp: black;
+        --farge-nav: rgba(0, 0, 0, 0.75);
+        --farge-tekst-nav: white;
     }
 }
 

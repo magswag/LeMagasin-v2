@@ -59,7 +59,7 @@ class NavigasjonKomponent extends HTMLElement {
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <style>
                 .topp {
-                    background-color: rgba(255, 255, 255, 0.75);
+                    background-color: var(--farge-nav);
                     backdrop-filter: blur(16px);
                     -webkit-backdrop-filter: blur(16px);
                     display: flex;
@@ -74,7 +74,7 @@ class NavigasjonKomponent extends HTMLElement {
 
                 a {
                     font-family: sans-serif;
-                    color: black;
+                    color: var(--farge-tekst-nav);
                     display:flex;
                     gap: 0px;
                     flex-direction: column;
@@ -86,10 +86,16 @@ class NavigasjonKomponent extends HTMLElement {
                     width: 100%;
                     box-sizing: border-box;
                     padding: 16px;
-                    background-color: lightgreen;
+                    font-family: sans-serif;
+                    background-color: var(--farge-overflate);
+                    color: var(--farge-tekst-overflate);
                     display: flex;
                     align-items: center;
                     justify-content: space-between;              
+                }
+
+                header h1 {
+                    margin: 0px;
                 }
 
                 ul {
@@ -336,7 +342,7 @@ class MengdeKomponent extends HTMLElement {
     get verdi() {
         return this.getAttribute("verdi") || 0
     }
-    
+
     constructor() {
         super()
         this.shadow = this.attachShadow({ mode: 'open' })
