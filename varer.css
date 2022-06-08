@@ -109,9 +109,7 @@ li {
         justify-content: start;
     }
 
-    .søkefelt {
-        background-color: rgb(225, 235, 225);
-    }
+   
 }
 
 @keyframes fadeIn {

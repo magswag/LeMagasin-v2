@@ -113,7 +113,7 @@ class NavigasjonKomponent extends HTMLElement {
                 }
 
                 li:hover {
-                    background-color: red;
+                    background-color: green;
                  
                 }
 
@@ -348,10 +348,6 @@ class MengdeKomponent extends HTMLElement {
         this.shadow = this.attachShadow({ mode: 'open' })
     }
 
-    decrement() {
-        console.log("ll")
-    }
-
     connectedCallback() {
         this.shadowRoot.innerHTML = `
             <style>
@@ -382,19 +378,24 @@ class MengdeKomponent extends HTMLElement {
             </style>
             <div>
                 <button id="senk">-</button>
-                <input type="number" min="1" max="999" value="${this.verdi}"/>
+                <input type="number" min="0" max="999" value="${this.verdi}"/>
                 <button id="øk">+</button>
             </div>
         `
         const input = this.shadowRoot.querySelector("input")
+
+        input.addEventListener("change", ev => {
+            this.dispatchEvent(new CustomEvent("endra", { bubbles: true, cancelable: false, composed: true, detail: {verdi: input.value} }))
+        })
+
         this.shadowRoot.getElementById("senk").addEventListener("click", e => {
             input.stepDown()
-            this.dispatchEvent(new CustomEvent("senka", { bubbles: true, cancelable: false, composed: true }))
+            this.dispatchEvent(new CustomEvent("endra", { bubbles: true, cancelable: false, composed: true, detail: {verdi: input.value} }))
         })
 
         this.shadowRoot.getElementById("øk").addEventListener("click", e => {
             input.stepUp()
-            this.dispatchEvent(new CustomEvent("økt", { bubbles: true, cancelable: false, composed: true }))
+            this.dispatchEvent(new CustomEvent("endra", { bubbles: true, cancelable: false, composed: true, detail: {verdi: input.value} }))
         })
     }
 }

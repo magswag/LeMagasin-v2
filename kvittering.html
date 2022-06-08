@@ -44,14 +44,33 @@
   <div style="padding: 8px;">
     <div class="kort konteiner">
       <h1>Kvittering</h1>
-      <h2>Navn</h2>
-      <h2>E-post</h2>
+      <h2 id="navn">Navn</h2>
+      <h2 id="epost">E-post</h2>
       <div id="vareKonteiner"></div>
+      <h2 id="totalpris">0kr</h2>
     </div>
   </div>
 
   <script>
+    function nok(p) {
+      return p.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })
+    }
+
+    const params = new URLSearchParams(window.location.search)
+
+    const navn = document.getElementById("navn")
+    const epost = document.getElementById("epost")
+
+    const gyldigeRabattKoder = {
+      "SUNT": 0.5,
+    }
+
+    
+
+    navn.textContent = `${params.get("fornavn")} ${params.get("etternavn")}`
+    epost.textContent = `${params.get("epost")}`
     const vareKonteiner = document.getElementById("vareKonteiner")
+    const totalpris = document.getElementById("totalpris")
     const handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
 
     handlevogn.forEach(vare => {
@@ -63,6 +82,17 @@
         </div>
       `
     });
+
+    let total = handlevogn.reduce((acc, v) => acc + v.vara.pris * v.antall, 0)
+
+    const kod = gyldigeRabattKoder[params.get("rabattkode")]
+
+    if(kod) {
+      total = total * (1 - kod)
+    }
+
+
+    totalpris.textContent = nok(total)
   </script>
 </body>
 

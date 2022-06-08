@@ -31,34 +31,10 @@
 
 
 
-                <ul class="pc">
-                    <li class="velger" data-kat="">Alle
-                        <ul class="nested">
-                            <li class="velger" data-kat="grønt">Grønt
-                                <ul class="nested">
-                                    <li data-kat="grønnsaker">Grønnsaker</li>
-                                    <li data-kat="frukt">Frukt</li>
-                                </ul>
-                            </li>
-                            <li class="velger" data-kat="drikke">Drikke
-                                <ul class="nested">
-                                    <li data-kat="leskedrikke">Leskedrikke</li>
-                                    <li data-kat="melk">Melk</li>
-                                    <li data-kat="alkohol">Alkohol</li>
-                                </ul>
-                            </li>
-                            <li class="velger" data-kat="meieriprodukter">Meieriprodukter
-                                <ul class="nested">
-                                    <li data-kat="ost">Ost</li>
-                                    <li data-kat="melk">Melk</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                
             </form>
             <div class="filterscroll">
-                <select name="kategori" aria-label="Kategori" class="mobil" id="kategorivelger">
+                <select name="kategori" aria-label="Kategori" id="kategorivelger">
                     <option value="">Alle</option>
                     <option value="grønt">Grønt</option>
                     <option value="grønnsaker">&nbsp;&nbsp;&nbsp;&nbsp;Grønnsaker</option>
@@ -66,7 +42,7 @@
                     <option value="drikke">Drikke</option>
                     <option value="leskedrikke">&nbsp;&nbsp;&nbsp;&nbsp;Leskedrikke</option>
                     <option value="melk">&nbsp;&nbsp;&nbsp;&nbsp;Melk</option>
-                    <option value="alkohol">&nbsp;&nbsp;&nbsp;&nbsp;Alkohol</option>
+                    <option value="kjøtt">Kjøtt</option>
                 </select>
                 <select name="sortering" aria-label="Sortering" id="sorteringvelger">
                     <option value="alfabetisk">Alfabetisk</option>
@@ -88,7 +64,6 @@
 
         function filtrerVarer(søk, kategori) {
             if (kategori != "") {
-                console.log("aksdas")
                 filtrerteVarer = varer.filter(vare => vare.kategorier.includes(kategori))
             } else {
                 filtrerteVarer = varer

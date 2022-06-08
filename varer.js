@@ -64,8 +64,8 @@ const varer = [
     },
     {
         navn: "Paprika",
-        beskrivelse: "stykk rød",
-        pris: 14.05,
+        beskrivelse: "før 14,05kr",
+        pris: 9.05,
         bilde: "paprika",
         kategorier: ["grønt", "grønnsaker"]
     },
@@ -138,5 +138,19 @@ const varer = [
         pris: 29.9,
         bilde: "biola",
         kategorier: ["drikke", "melk"]
+    },
+    {
+        navn: "Kjøttdeig Storfe",
+        beskrivelse: "14% u/Salt og Vann 400g Meny",
+        pris: 67.9,
+        bilde: "kjøttdeig",
+        kategorier: ["kjøtt"]
+    },
+    {
+        navn: "Kyllingfilet",
+        beskrivelse: "Strimler 400g Kyllinggården",
+        pris: 73.8,
+        bilde: "kyllingfilet",
+        kategorier: ["kjøtt"]
     },
 ]

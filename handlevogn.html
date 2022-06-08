@@ -104,12 +104,17 @@
     <a class="farga-knapp" href="kasse.html">Til kassa</a>
   </div>
 
-  <script type="module">
+  <script>
 
     let handlevogn = JSON.parse(localStorage.getItem("handlevogn")) || []
 
     const vareKonteiner = document.getElementById("vare-konteiner")
     const sum = document.getElementById("sum")
+
+    function tøm() {
+      localStorage.removeItem("handlevogn")
+      location.reload()
+    }
 
     function nok(p) {
       return p.toLocaleString("nb-NO", { style: "currency", currency: "NOK" })
@@ -134,14 +139,12 @@
       });
 
       vareKonteiner.querySelectorAll("mengde-komponent").forEach(komp => {
-        komp.addEventListener("senka", e => {
-          handlevogn[komp.dataset.i].antall--
-          tegn()
-          localStorage.setItem("handlevogn", JSON.stringify(handlevogn))
-        })
-
-        komp.addEventListener("økt", e => {
-          handlevogn[komp.dataset.i].antall++
+        komp.addEventListener("endra", e => {
+          if (e.detail.verdi == 0) {
+            handlevogn.splice(komp.dataset.i, 1)
+          } else {
+            handlevogn[komp.dataset.i].antall = parseInt(e.detail.verdi)
+          }
           tegn()
           localStorage.setItem("handlevogn", JSON.stringify(handlevogn))
         })
@@ -154,10 +157,7 @@
 
 
 
-    function tøm() {
-      localStorage.removeItem("handlevogn")
-      location.reload()
-    }
+
   </script>
 </body>
 

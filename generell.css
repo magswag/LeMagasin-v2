@@ -1,6 +1,6 @@
 :root {
     --kort-hjørneradius: 36px;
-    --farge-overflate: rgb(225, 235, 225);
+    --farge-overflate: rgb(197 233 205);
     --farge-bakgrunn: white;
     --farge-tekst-overflate: black;
     --farge-knapp: rgb(0, 128, 0);
@@ -11,10 +11,10 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --farge-overflate: rgb(61, 75, 61);
+        --farge-overflate: rgb(37 44 37);
         --farge-bakgrunn: black;
         --farge-tekst-overflate: white;
-        --farge-knapp: rgb(158, 240, 158);
+        --farge-knapp: rgb(177 255 161);
         --farge-tekst-knapp: black;
         --farge-nav: rgba(0, 0, 0, 0.75);
         --farge-tekst-nav: white;

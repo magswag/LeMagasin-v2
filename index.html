@@ -97,7 +97,7 @@
     <navigasjon-komponent></navigasjon-komponent>
     <img id="fors" src="bilder/TilbudTilbudTilbud.png" alt="">
     <h1>Ukas retter</h1>
-    <div class="konteiner">
+    <div>
       <div class="karusell-konteiner">
 
       </div>
@@ -133,6 +133,7 @@
 
       const ukasRetterKonteiner = document.querySelector(".karusell-konteiner")
       
+      // Legg til rettene i HTML
       ukasRetter.forEach(rett => {
         ukasRetterKonteiner.innerHTML += `
           <div class="kort">
